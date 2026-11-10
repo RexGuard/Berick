@@ -1,0 +1,28 @@
+[package]
+name = "berick"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "A web browser built on the Servo engine"
+repository = "https://github.com/RexGuard/Berick"
+publish = false
+
+[dependencies]
+servo = "=0.8.0"
+dpi = "0.1"
+egui = "0.34.3"
+egui-winit = { version = "0.34.3", default-features = false, features = ["clipboard", "links"] }
+egui_glow = { version = "0.34.3", features = ["winit"] }
+euclid = "0.22"
+keyboard-types = "0.8.3"
+log = "0.4"
+rustls = { version = "0.23", default-features = false, features = ["aws_lc_rs", "logging", "std", "tls12"] }
+url = "2.5"
+winit = "0.30.13"
+
+[profile.release]
+debug = false
+lto = "thin"
+
+[profile.dev.package."*"]
+opt-level = 2
