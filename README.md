@@ -68,6 +68,37 @@ cargo run --release -- rust servo      # search
 
 Set `RUST_LOG=info` to see more logging.
 
+### Audio and video (optional)
+
+By default Berick is built without a media backend, so `<video>` and `<audio>` never play.
+To turn playback on, install GStreamer and build with the `media` feature:
+
+```sh
+cargo run --release --features media
+```
+
+- **Windows:** install both the *runtime* and *development* MSVC 64-bit installers (1.24 or newer)
+  from <https://gstreamer.freedesktop.org/download/>, choosing the "Complete" install. Then add
+  `C:\gstreamer\1.0\msvc_x86_64\bin` to your `PATH` and set
+  `PKG_CONFIG_PATH=C:\gstreamer\1.0\msvc_x86_64\lib\pkgconfig`.
+- **Linux:** `sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+  libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav`
+- **macOS:** `brew install gstreamer`
+
+## Sites that need things Servo doesn't have yet
+
+Berick turns on the web features Servo offers, but some sites need parts of the web platform
+that Servo hasn't built yet. Those can't be fixed in Berick itself.
+
+- **YouTube, Twitch and most video sites:** these stream video through Media Source Extensions
+  (MSE), which Servo doesn't implement. The page may load, but videos won't play, even with the
+  `media` feature. Plain video files (an `.mp4` or `.webm` link, or a simple `<video src>`) do play
+  with the `media` feature.
+- **Netflix, Spotify, Disney+ and other DRM services:** these need Encrypted Media Extensions and a
+  licensed DRM module, which Servo doesn't have.
+- **Heavy web apps** (Google Docs, Figma and the like) may load partly or look broken where Servo's
+  layout or JavaScript APIs are still incomplete.
+
 ## Layout
 
 | File | What it does |

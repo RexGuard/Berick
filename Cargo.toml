@@ -8,7 +8,13 @@ repository = "https://github.com/RexGuard/Berick"
 publish = false
 
 [dependencies]
-servo = "=0.8.0"
+# Servo's own default features leave out several web APIs that real sites (YouTube, Google,
+# maps, games) expect. These match what servoshell turns on.
+servo = { version = "=0.8.0", features = [
+    "brotli-compression-stream",
+    "subtlecrypto",
+    "webgl",
+] }
 dpi = "0.1"
 egui = "0.34.3"
 egui-winit = { version = "0.34.3", default-features = false, features = ["clipboard", "links"] }
@@ -19,6 +25,12 @@ log = "0.4"
 rustls = { version = "0.23", default-features = false, features = ["aws_lc_rs", "logging", "std", "tls12"] }
 url = "2.5"
 winit = "0.30.13"
+
+[features]
+default = []
+# Audio and video playback through GStreamer. Needs the GStreamer development and runtime
+# packages installed; see the README. Without it, <video> and <audio> never play.
+media = ["servo/media-gstreamer"]
 
 [profile.release]
 debug = false
